@@ -1,0 +1,22 @@
+local opt = vim.opt
+
+opt.number = true
+opt.mouse = "a"
+opt.clipboard = "unnamedplus"
+vim.g.clipboard = "osc52"
+opt.breakindent = true
+opt.undofile = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.signcolumn = "yes"
+opt.updatetime = 250
+opt.timeoutlen = 400
+opt.splitright = true
+opt.splitbelow = true
+opt.termguicolors = true
+opt.scrolloff = 8
+opt.completeopt = { "menu", "menuone", "noselect" }
+opt.expandtab = true
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.shiftwidth = 2

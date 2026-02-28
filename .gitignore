@@ -1,0 +1,14 @@
+# local/private
+lua/config/private.lua
+
+# sessions / temp
+Session.vim
+*.session
+*.swp
+*.swo
+*~
+
+# logs / caches if you create them in config
+log/
+tmp/
+
