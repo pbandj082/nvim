@@ -1,6 +1,14 @@
 local map = vim.keymap.set
 
 -- Telescope
+map("n", "<C-p>", function()
+  local builtin = require("telescope.builtin")
+  local ok = pcall(builtin.git_files, { show_untracked = true })
+  if not ok then
+    builtin.find_files()
+  end
+end, { desc = "Go to file" })
+
 map("n", "<leader>ff", function()
   require("telescope.builtin").find_files()
 end, { desc = "Find files" })
@@ -19,6 +27,9 @@ end, { desc = "Help tags" })
 
 -- Oil
 map("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
+-- Explorer (tree)
+map("n", "<leader>e", "<CMD>Neotree toggle reveal<CR>", { desc = "Explorer" })
 
 -- LSP
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })

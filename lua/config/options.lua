@@ -19,3 +19,9 @@ opt.expandtab = true
 opt.tabstop = 2
 opt.softtabstop = 2
 opt.shiftwidth = 2
+
+-- Use ripgrep for :grep (quickfix)
+if vim.fn.executable("rg") == 1 then
+  opt.grepprg = "rg --vimgrep --smart-case"
+  opt.grepformat = "%f:%l:%c:%m"
+end

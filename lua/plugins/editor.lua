@@ -37,6 +37,42 @@ return {
   },
 
   {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    cmd = "Neotree",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    opts = {
+      enable_git_status = true,
+      filesystem = {
+        follow_current_file = { enabled = true },
+      },
+      default_component_configs = {
+        git_status = {
+          symbols = {
+            added = "A",
+            deleted = "D",
+            modified = "M",
+            renamed = "R",
+            untracked = "?",
+            ignored = "I",
+            unstaged = "U",
+            staged = "S",
+            conflict = "!",
+          },
+        },
+      },
+      window = {
+        position = "left",
+        width = 35,
+      },
+    },
+  },
+
+  {
     "stevearc/oil.nvim",
     lazy = false,
     dependencies = {
