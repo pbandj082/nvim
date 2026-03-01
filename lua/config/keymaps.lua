@@ -5,12 +5,12 @@ map("n", "<C-p>", function()
   local builtin = require("telescope.builtin")
   local ok = pcall(builtin.git_files, { show_untracked = true })
   if not ok then
-    builtin.find_files()
+    builtin.find_files({ hidden = true })
   end
 end, { desc = "Go to file" })
 
 map("n", "<leader>ff", function()
-  require("telescope.builtin").find_files()
+  require("telescope.builtin").find_files({ hidden = true })
 end, { desc = "Find files" })
 
 map("n", "<leader>fg", function()

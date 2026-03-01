@@ -33,7 +33,35 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    opts = {},
+    opts = {
+      defaults = {
+        -- Keep dotfiles visible (e.g. .gitignore) but hide common "noise" dirs.
+        file_ignore_patterns = {
+          "%.git/",
+          "node_modules/",
+        },
+      },
+      pickers = {
+        find_files = {
+          hidden = true,
+          find_command = {
+            "rg",
+            "--files",
+            "--hidden",
+            "--glob=!**/.git/*",
+            "--glob=!**/node_modules/*",
+          },
+        },
+        live_grep = {
+          additional_args = function()
+            return {
+              "--glob=!**/.git/*",
+              "--glob=!**/node_modules/*",
+            }
+          end,
+        },
+      },
+    },
   },
 
   {
@@ -45,10 +73,29 @@ return {
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
+    config = function(_, opts)
+      require("neo-tree").setup(opts)
+
+      local group = vim.api.nvim_create_augroup("user_neotree_refresh", { clear = true })
+      vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "VimResume" }, {
+        group = group,
+        callback = function()
+          local ok, manager = pcall(require, "neo-tree.sources.manager")
+          if not ok then
+            return
+          end
+          manager.refresh("filesystem")
+        end,
+      })
+    end,
     opts = {
       enable_git_status = true,
       filesystem = {
         follow_current_file = { enabled = true },
+        use_libuv_file_watcher = true,
+        filtered_items = {
+          hide_dotfiles = false,
+        },
       },
       default_component_configs = {
         git_status = {
