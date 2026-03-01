@@ -47,8 +47,8 @@ local function chan_send(data)
     io.stderr:write(data)
     io.stderr:flush()
   end)
-  if not ok and vim.api and vim.api.nvim_out_write then
-    vim.api.nvim_out_write(data)
+  if not ok and vim.api and vim.api.nvim_echo then
+    vim.api.nvim_echo({ { data, "None" } }, false, {})
   end
 end
 

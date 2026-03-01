@@ -1,5 +1,30 @@
 local map = vim.keymap.set
 
+local function diagnostic_jump(count)
+  if vim.diagnostic.jump then
+    vim.diagnostic.jump({ count = count })
+    return
+  end
+
+  if count > 0 then
+    ---@diagnostic disable-next-line: deprecated
+    vim.diagnostic.goto_next()
+  else
+    ---@diagnostic disable-next-line: deprecated
+    vim.diagnostic.goto_prev()
+  end
+end
+
+local function diagnostic_open_float(opts)
+  local ok = pcall(vim.diagnostic.open_float, opts)
+  if ok then
+    return
+  end
+
+  ---@diagnostic disable-next-line: param-type-mismatch
+  vim.diagnostic.open_float(0, opts)
+end
+
 -- Telescope
 map("n", "<C-p>", function()
   local builtin = require("telescope.builtin")
@@ -37,6 +62,21 @@ map("n", "gr", vim.lsp.buf.references, { desc = "References" })
 map("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
 map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
 map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-map("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
-map("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-map("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Line diagnostics" })
+map("n", "[d", function()
+  diagnostic_jump(-1)
+end, { desc = "Prev diagnostic" })
+map("n", "]d", function()
+  diagnostic_jump(1)
+end, { desc = "Next diagnostic" })
+map("n", "<leader>dd", function()
+  diagnostic_open_float({ scope = "cursor", border = "rounded", source = true })
+end, { desc = "Diagnostics (cursor)" })
+map("n", "<leader>dl", function()
+  diagnostic_open_float({ scope = "line", border = "rounded", source = true })
+end, { desc = "Diagnostics (line)" })
+map("n", "<leader>db", function()
+  vim.diagnostic.setloclist({ open = true })
+end, { desc = "Diagnostics (buffer list)" })
+map("n", "<leader>dq", function()
+  vim.diagnostic.setqflist({ open = true })
+end, { desc = "Diagnostics (workspace list)" })

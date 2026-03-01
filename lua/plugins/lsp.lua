@@ -150,7 +150,7 @@ return {
     "stevearc/conform.nvim",
     event = { "BufWritePre" },
     opts = {
-      format_on_save = function(bufnr)
+      format_on_save = function(_)
         return {
           timeout_ms = 500,
           lsp_fallback = true,
